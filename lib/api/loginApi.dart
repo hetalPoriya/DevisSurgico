@@ -51,4 +51,5 @@ class LoginApi {
         await ApiHelper.getDioClient().get(ServerConstants.hospitalAttendData);
     return HospitalAttendenceDataModel.fromJson(response.data);
   }
+
 }

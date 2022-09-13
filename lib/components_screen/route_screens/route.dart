@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../../api/loginApi.dart';
 import '../../model/Route_by_hospital_model.dart';
 
-//import 'package:google_maps/google_maps.dart';
 class RouteScreen extends StatefulWidget {
   final String? description;
   final String? id;
@@ -20,50 +19,42 @@ class RouteScreen extends StatefulWidget {
 }
 
 class _RouteScreenState extends State<RouteScreen> {
-  // final List<Map<String, dynamic>> _eventslist = [
-  //   {
-  //     'title': 'Dhanbad',
-  //     'Description': 'Asian Dwarkadas Jalan Super Specialty Hospital'
-  //   },
-  //   {'title': 'Jamshedpur', 'Description': 'Meherbai Tata Memorial Hospital'},
-  //   {'title': 'Ranchi', 'Description': 'Orchid Medical Center'},
-  //   {'title': 'Jamshedpur', 'Description': 'Tata Main Hospital'},
-  //   {'title': 'Ranchi', 'Description': 'Paras HEC Hospital'},
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        top: true,
-        child: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: const Text("Route"),
-            backgroundColor: const Color(0XFFB71C1C),
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  //bottomRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20)),
+      top: true,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Route"),
+          backgroundColor: const Color(0XFFB71C1C),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              //bottomRight: Radius.circular(20),
+              bottomLeft: Radius.circular(20),
             ),
           ),
-          body: FutureBuilder<RouteByHospitalModel>(
-              future: LoginApi.hospitalRoutes(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-
-                      scrollDirection: Axis.vertical,
-                      itemCount: snapshot.data!.data?.length,
-                      itemBuilder: (context, index) {
-                        return hotelList(snapshot.data!.data![index]);
-                      });
-                } else if (snapshot.hasError) {
-                  log(snapshot.error.toString());
-                  return const Center(child: Text("Error"));
-                }
-                return const Center(child: CircularProgressIndicator());
-              }),
-        ));
+        ),
+        body: FutureBuilder<RouteByHospitalModel>(
+          future: LoginApi.hospitalRoutes(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data!.data?.length,
+                itemBuilder: (context, index) {
+                  return hotelList(snapshot.data!.data![index]);
+                },
+              );
+            } else if (snapshot.hasError) {
+              log(snapshot.error.toString());
+              return const Center(child: Text("Error"));
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
+      ),
+    );
   }
 
   Widget hotelList(RouteByHospitalData hospitalRoutes) {
@@ -89,10 +80,12 @@ class _RouteScreenState extends State<RouteScreen> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(width: 5,),
+                  const SizedBox(
+                    width: 5,
+                  ),
                   Expanded(
                     child: Text(
-                    hospitalRoutes.address.toString(),
+                      hospitalRoutes.address.toString(),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(
@@ -110,7 +103,7 @@ class _RouteScreenState extends State<RouteScreen> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Text(
-               hospitalRoutes.name.toString(),
+                hospitalRoutes.name.toString(),
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -129,9 +122,10 @@ class _RouteScreenState extends State<RouteScreen> {
                   ),
                   onPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                        builder: (context) => RouteDetailsScreen(
-                              //escription: _eventslist[index]['Description'],
-                            )),
+                      builder: (context) => RouteDetailsScreen(
+                          hospitalRoutes,
+                          ),
+                    ),
                   ),
                 ),
               ),

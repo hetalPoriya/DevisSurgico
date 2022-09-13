@@ -1,15 +1,53 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../api/loginApi.dart';
+import '../../model/Route_by_hospital_model.dart';
 
 class RouteDetailsScreen extends StatefulWidget {
-  //final String? description;
-  const RouteDetailsScreen({Key? key}) : super(key: key);
+  RouteByHospitalData? routeByHospitalData;
+
+  RouteDetailsScreen(this.routeByHospitalData);
 
   @override
-  State<RouteDetailsScreen> createState() => _RouteDetailsScreenState();
+  State<RouteDetailsScreen> createState() =>
+      _RouteDetailsScreenState(routeByHospitalData);
 }
 
 class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
+  RouteByHospitalData? routeByHospitalData;
+
+  _RouteDetailsScreenState(this.routeByHospitalData);
+
+  final List<String> _status = ["Done", "Partially", "Denied"];
+  List<PickedFile?> pickedFile = [];
+  String? status = "";
+  Position? position;
+
+  bool positionStreamStarted = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getCurrentLocation();
+    super.initState();
+  }
+
+  void getCurrentLocation() async {
+    print("message");
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      this.position = position;
+    });
+    print(position.latitude.toString());
+    print(position.longitude.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,68 +69,74 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
             borderRadius: BorderRadius.circular(20),
             child: Container(
               color: Colors.grey[200],
-              height: 200,
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(Icons.location_on_outlined,
-                            color: Color(0XFFB71C1C), size: 30),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Text(
-                              "Source",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const Text(
-                              "Current Location",
-                              style: TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    DropdownButtonFormField(
+                      items: _status
+                          .map((e) => DropdownMenuItem(
+                                onTap: () {},
+                                value: e,
+                                child: Text(e),
+                              ))
+                          .toList(),
+                      hint: Text("Status"),
+                      onChanged: (String? _status) {
+                        status = _status;
+                      },
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right: 290),
-                      child: Container(
-                        color: Colors.black,
-                        height: 100,
-                        width: 1,
+                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      child: OutlinedButton.icon(
+                        label: Text(""),
+                        icon: Icon(Icons.camera),
+                        onPressed: () async {
+                          final picker = ImagePicker();
+
+                          picker
+                              .getImage(
+                                  source: ImageSource.camera, imageQuality: 50)
+                              .then((value) => {
+                                    setState(() {
+                                      pickedFile.add(value);
+                                    })
+                                  });
+                        },
                       ),
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.location_on_outlined,
-                          color: Color(0XFFB71C1C),
-                          size: 30,
+                    if (pickedFile.isNotEmpty)
+                      Wrap(
+                        children: pickedFile
+                            .map(
+                              (e) => Image.file(
+                                File(e!.path),
+                                height: MediaQuery.of(context).size.width,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Color(0xFF263238)),
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                          ),
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // ignore: prefer_const_literals_to_create_immutables
-                          children: [
-                            const Text(
-                              "Destination",
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const Text(
-                              "Destination",
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
+                        child: const Text(
+                          "Submit",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            color: Colors.white,
+                          ),
                         ),
-                      ],
+                        onPressed: () => addServices(),
+                      ),
                     ),
                   ],
                 ),
@@ -100,11 +144,33 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: const Icon(Icons.location_on_outlined, size: 30),
-          backgroundColor: const Color(0XFFB71C1C),
-        ),
+      ),
+    );
+  }
+
+  void addServices() async {
+    print(pickedFile.length.toString() + "" + "skdjhfh");
+
+    List<MultipartFile> images = [];
+
+    for (int i = 0; i < pickedFile.length; i++) {
+      images.add(
+        await MultipartFile.fromFile(pickedFile[i]!.path,
+            filename: pickedFile[i].toString() + ".png"),
+      );
+    }
+
+    var homePageData = LoginApi.hospitalAttends(
+      FormData.fromMap(
+        {
+          "driver_id": "1",
+          "hospital_id": routeByHospitalData?.hospitalId.toString(),
+          "time": "2022-08-09 10:00:24",
+          "latitude": position?.latitude.toString(),
+          "longitude": position?.longitude.toString(),
+          "status": status,
+          if (pickedFile.isNotEmpty) "photo[]": images
+        },
       ),
     );
   }
