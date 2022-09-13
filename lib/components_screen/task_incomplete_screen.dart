@@ -12,10 +12,57 @@ class _TaskIncompleteState extends State<TaskIncomplete> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text("Task Incomplete"),
-      ),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: const Text("Task Incomplete"),
+          backgroundColor:const Color(0XFFB71C1C),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              //bottomRight: Radius.circular(20),
+                bottomLeft: Radius.circular(20)),
+          ),
+        ),
+        body: ListView.builder(
+          itemBuilder: (context, position) {
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: const [
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Hospital Name",
+                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                  )),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "status",
+                                  )),
+                            ],
+                          ),
+                          const Icon(Icons.camera_alt)
+                        ],
+                      )
+
+                  ),
+                ),
+              ),
+            );
+          },
+          itemCount: 20,
+        ));
   }
 }

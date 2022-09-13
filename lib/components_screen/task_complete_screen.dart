@@ -24,35 +24,39 @@ class _TaskCompleteSCreenState extends State<TaskCompleteSCreen> {
         ),
         body: ListView.builder(
           itemBuilder: (context, position) {
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
+            return Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
 
-                    title: Row(
-                      children: [
-                        Column(
-                          children: const [
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "Hospital Name",
-                                  style: TextStyle(fontWeight: FontWeight.w600),
-                                )),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  "status",
-                                )),
-                          ],
-                        ),
-                        const Icon(Icons.camera_alt)
-                      ],
-                    )
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: const [
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "Hospital Name",
+                                    style: TextStyle(fontWeight: FontWeight.w600),
+                                  )),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    "status",
+                                  )),
+                            ],
+                          ),
+                          const Icon(Icons.camera_alt)
+                        ],
+                      )
 
+                  ),
                 ),
               ),
             );

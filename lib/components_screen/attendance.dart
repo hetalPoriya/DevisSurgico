@@ -54,8 +54,6 @@ class _AttendanceState extends State<Attendance> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
                 child: Stack(
@@ -111,78 +109,86 @@ class _AttendanceState extends State<Attendance> {
               ),
               // const SizedBox(height: 40),
 
-              // const SizedBox(height: 30),
+               const SizedBox(height: 30),
+              const Text(
+                "Username",
+                style: TextStyle(
+                  fontSize: 19,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Text(
-                    "Name : ",
-                    style: TextStyle(
-                        fontSize: 19,
-                        color: Colors.grey,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const Text(
-                    "User",
+                children: const [
+                  Icon(Icons.location_on),
+                  SizedBox(width: 10,),
+                  Text(
+                    "location",
                     style: TextStyle(
                       fontSize: 19,
-                      color: Colors.blue,
+                      color: Colors.black,
                     ),
                   ),
                 ],
               ),
+              const SizedBox(height: 15),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-              Padding(
-                padding: const EdgeInsets.only(left: 46),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Text(
-                      "Date : ",
-                      style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                      style: const TextStyle(
-                        fontSize: 19,
-                        color: Colors.blue,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Text(
+                        "Date : ",
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
+                      Text(
+                        DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                        style: const TextStyle(
+                          fontSize: 19,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              const SizedBox(height: 15),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
 
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    const Text(
-                      "Time : ",
-                      style: TextStyle(
-                          fontSize: 19,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      DateFormat().add_jm().format(todayDate).toString(),
-                      style: const TextStyle(
-                        fontSize: 19,
-                        color: Colors.blue,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      const Text(
+                        "Time : ",
+                        style: TextStyle(
+                            fontSize: 19,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ],
-                ),
+                      Text(
+                        DateFormat().add_jm().format(todayDate).toString(),
+                        style: const TextStyle(
+                          fontSize: 19,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    ],
+                  ),
 
+                ),
               ),
+              const SizedBox(height: 50),
                ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
