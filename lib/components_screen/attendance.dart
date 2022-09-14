@@ -26,7 +26,7 @@ class _AttendanceState extends State<Attendance> {
     final imageTemporary = File(image.path);
     setState(() => this.image = imageTemporary);
 
-   // Navigator.of(context).pop();
+    // Navigator.of(context).pop();
   }
 
   getImageData(image) {
@@ -47,7 +47,7 @@ class _AttendanceState extends State<Attendance> {
           backgroundColor: const Color(0XFFB71C1C),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
-                //bottomRight: Radius.circular(20),
+              //bottomRight: Radius.circular(20),
                 bottomLeft: Radius.circular(20)),
           ),
         ),
@@ -109,13 +109,13 @@ class _AttendanceState extends State<Attendance> {
               ),
               // const SizedBox(height: 40),
 
-               const SizedBox(height: 30),
+              const SizedBox(height: 30),
               const Text(
                 "Username",
                 style: TextStyle(
-                  fontSize: 19,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold
+                    fontSize: 19,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
                 ),
               ),
               const SizedBox(height: 15),
@@ -189,7 +189,7 @@ class _AttendanceState extends State<Attendance> {
                 ),
               ),
               const SizedBox(height: 50),
-               ElevatedButton(
+              ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   primary: const Color(0XFFB71C1C),
