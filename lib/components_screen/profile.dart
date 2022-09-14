@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
   bool isTextFieldEnabled = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _vehiclenumberController = TextEditingController();
+  TextEditingController _vehicleNumberController = TextEditingController();
 
   TextEditingController _birthdayController = TextEditingController();
   TextEditingController _contactController = TextEditingController();
@@ -39,7 +39,7 @@ class _ProfileState extends State<Profile> {
       _birthdayController.text = data['birthday'];
       _emailController.text = data['email'];
       _contactController.text = data['mobile'];
-      _vehiclenumberController.text = data['vehicle'];
+      _vehicleNumberController.text = data['vehicle'];
     });
   }
 
@@ -242,7 +242,7 @@ class _ProfileState extends State<Profile> {
                         const SizedBox(height: 8),
                         TextField(
                         readOnly: !isTextFieldEnabled,
-                          controller: _vehiclenumberController,
+                          controller: _vehicleNumberController,
                           cursorColor: Colors.grey,
                           decoration: InputDecoration(
                             focusedBorder: const UnderlineInputBorder(
@@ -277,7 +277,7 @@ class _ProfileState extends State<Profile> {
                                 onPressed: () {
                                   log(_emailController.text);
                                   log(_nameController.text);
-                                  log(_vehiclenumberController.text);
+                                  log(_vehicleNumberController.text);
                                   log(_birthdayController.text);
                                   log(_contactController.text);
                                   if (_emailController.text.isEmpty) {
@@ -300,7 +300,7 @@ class _ProfileState extends State<Profile> {
                                         const SnackBar(
                                             content: Text(
                                                 'Please Enter Mobile No.')));
-                                  } else if (_vehiclenumberController.text.isEmpty) {
+                                  } else if (_vehicleNumberController.text.isEmpty) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                             content: Text(

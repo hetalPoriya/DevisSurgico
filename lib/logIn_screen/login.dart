@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:driver_apps/home_screen/home.dart';
 import 'package:flutter/material.dart';
 
-import '../api/loginApi.dart';
+import '../api/LoginApi.dart';
 import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,8 +16,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
    bool _isPasswordVisible = false;
    bool isLoading = false;
-  TextEditingController _numberController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
    final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override

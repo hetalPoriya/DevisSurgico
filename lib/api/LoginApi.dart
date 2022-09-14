@@ -1,13 +1,14 @@
+
 import 'package:dio/dio.dart';
 import 'package:driver_apps/api/serverConstant.dart';
+import 'package:driver_apps/model/Hospital.dart';
 import '../model/Attendance_in_model.dart';
 import '../model/Attendance_out_model.dart';
 import '../model/Hospital_attend_model.dart';
-import '../model/Hospital_attendence_data_model.dart';
 import '../model/Login_model.dart';
 import '../model/Route_by_driver_model.dart';
 import '../model/Route_by_hospital_model.dart';
-import 'apiHelper.dart';
+import 'ApiHelper.dart';
 
 class LoginApi {
   static Future<LoginModel> logIn(payload) async {
@@ -34,7 +35,7 @@ class LoginApi {
     return AttendanceInModel.fromJson(response.data);
   }
 
-  static Future<AttendanceOutModel> attandenceOuts(payload) async {
+  static Future<AttendanceOutModel> attendanceOuts(payload) async {
     Response response = await ApiHelper.getDioClientWithUrlencoded()
         .post(ServerConstants.attendanceOut, data: payload);
     return AttendanceOutModel.fromJson(response.data);
@@ -46,10 +47,10 @@ class LoginApi {
     return HospitalAttendModel.fromJson(response.data);
   }
 
-  static Future<HospitalAttendenceDataModel> hospitalData() async {
+  static Future<Hospital> hospitalData() async {
     Response response =
         await ApiHelper.getDioClient().get(ServerConstants.hospitalAttendData);
-    return HospitalAttendenceDataModel.fromJson(response.data);
+    return Hospital.fromJson(response.data);
   }
 
 }

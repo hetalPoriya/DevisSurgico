@@ -1,11 +1,11 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../api/loginApi.dart';
+import '../../api/LoginApi.dart';
+import '../../home_screen/home.dart';
 import '../../model/Route_by_hospital_model.dart';
 
 class RouteDetailsScreen extends StatefulWidget {
@@ -27,7 +27,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
   List<PickedFile?> pickedFile = [];
   String? status = "";
   Position? position;
-
+  var isLoading = false;
   bool positionStreamStarted = false;
 
   @override
@@ -38,14 +38,11 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
   }
 
   void getCurrentLocation() async {
-    print("message");
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
       this.position = position;
     });
-    print(position.latitude.toString());
-    print(position.longitude.toString());
   }
 
   @override
@@ -63,94 +60,107 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
                 bottomLeft: Radius.circular(20)),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              color: Colors.grey[200],
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    DropdownButtonFormField(
-                      items: _status
-                          .map((e) => DropdownMenuItem(
-                                onTap: () {},
-                                value: e,
-                                child: Text(e),
-                              ))
-                          .toList(),
-                      hint: Text("Status"),
-                      onChanged: (String? _status) {
-                        status = _status;
-                      },
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      child: OutlinedButton.icon(
-                        label: Text(""),
-                        icon: Icon(Icons.camera),
-                        onPressed: () async {
-                          final picker = ImagePicker();
+        body: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  color: Colors.grey[200],
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DropdownButtonFormField(
+                          items: _status
+                              .map((e) => DropdownMenuItem(
+                                    onTap: () {},
+                                    value: e,
+                                    child: Text(e),
+                                  ))
+                              .toList(),
+                          hint: const Text("Status"),
+                          onChanged: (String? _status) {
+                            status = _status;
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                          child: OutlinedButton.icon(
+                            label: const Text(""),
+                            icon: const Icon(Icons.camera),
+                            onPressed: () async {
+                              final picker = ImagePicker();
 
-                          picker
-                              .getImage(
-                                  source: ImageSource.camera, imageQuality: 50)
-                              .then((value) => {
-                                    setState(() {
-                                      pickedFile.add(value);
-                                    })
-                                  });
-                        },
-                      ),
-                    ),
-                    if (pickedFile.isNotEmpty)
-                      Wrap(
-                        children: pickedFile
-                            .map(
-                              (e) => Image.file(
-                                File(e!.path),
-                                height: MediaQuery.of(context).size.width,
+                              picker
+                                  .getImage(
+                                      source: ImageSource.camera,
+                                      imageQuality: 50)
+                                  .then((value) => {
+                                        setState(() {
+                                          pickedFile.add(value);
+                                        })
+                                      });
+                            },
+                          ),
+                        ),
+                        if (pickedFile.isNotEmpty)
+                          Wrap(
+                            children: pickedFile
+                                .map(
+                                  (e) => Image.file(
+                                    File(e!.path),
+                                    height: MediaQuery.of(context).size.width,
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                  const Color(0xFF263238)),
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)),
                               ),
-                            )
-                            .toList(),
-                      ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all(Color(0xFF263238)),
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16)),
+                            ),
+                            child: const Text(
+                              "Submit",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () => addServices(),
                           ),
                         ),
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        onPressed: () => addServices(),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
+            if (isLoading)
+              const Align(
+                alignment: Alignment.center,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+          ],
         ),
       ),
     );
   }
 
   void addServices() async {
-    print(pickedFile.length.toString() + "" + "skdjhfh");
-
+    setState(() {
+      isLoading = true;
+    });
     List<MultipartFile> images = [];
 
     for (int i = 0; i < pickedFile.length; i++) {
@@ -159,5 +169,28 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
             filename: pickedFile[i].toString() + ".png"),
       );
     }
+    LoginApi.hospitalAttends(
+      FormData.fromMap(
+        {
+          "driver_id": "1",
+          "hospital_id": routeByHospitalData?.hospitalId.toString(),
+          "time": "2022-08-09 10:00:24",
+          "latitude": position?.latitude.toString(),
+          "longitude": position?.longitude.toString(),
+          "status": status,
+          if (pickedFile.isNotEmpty) "photo[]": images
+        },
+      ),
+    ).then((value) {
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    });
   }
 }

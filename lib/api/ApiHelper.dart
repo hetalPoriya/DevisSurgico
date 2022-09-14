@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:driver_apps/api/serverConstant.dart';
 
-import '../../main.dart';
 
 class ApiHelper {
   static Dio getDioClient() {
