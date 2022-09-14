@@ -97,18 +97,46 @@ class _RouteScreenState extends State<RouteScreen> {
                   ),
                 ],
               ),
-              //const SizedBox(height: 5),
-              const Text(
-                "Hospital Name: ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              const SizedBox(height: 5),
+              Row(
+                children: [
+                  const Text(
+                    "Hospital Name:",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Expanded(
+                    child: Text(
+                      hospitalRoutes.name.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                hospitalRoutes.name.toString(),
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  // fontWeight: FontWeight.bold
-                ),
+              Row(
+                children: [
+                  const Text(
+                    "Mobile number:",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  Expanded(
+                    child: Text(
+                      hospitalRoutes.mobile.toString(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        // fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 190),

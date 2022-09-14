@@ -159,19 +159,5 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
             filename: pickedFile[i].toString() + ".png"),
       );
     }
-
-    var homePageData = LoginApi.hospitalAttends(
-      FormData.fromMap(
-        {
-          "driver_id": "1",
-          "hospital_id": routeByHospitalData?.hospitalId.toString(),
-          "time": "2022-08-09 10:00:24",
-          "latitude": position?.latitude.toString(),
-          "longitude": position?.longitude.toString(),
-          "status": status,
-          if (pickedFile.isNotEmpty) "photo[]": images
-        },
-      ),
-    );
   }
 }

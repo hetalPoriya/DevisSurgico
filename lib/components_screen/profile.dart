@@ -16,10 +16,10 @@ class _ProfileState extends State<Profile> {
  
   int selectedIndex = 0;
   Map data = {
-    'name':'User',
-    'birthday':'12-08-1999',
-    'email':'abc@gmail.com',
-    'mobile':'987654321',
+    'name':'Abcd',
+    'birthday':'12-08-2000',
+    'email':'abcd@gmail.com',
+    'mobile':'1234567890',
     'vehicle':'123456',
   };
 
