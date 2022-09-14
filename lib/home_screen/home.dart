@@ -1,5 +1,4 @@
 import 'package:driver_apps/components_screen/attendance.dart';
-import 'package:driver_apps/components_screen/task_incomplete_screen.dart';
 import 'package:driver_apps/logIn_screen/login.dart';
 import 'package:driver_apps/components_screen/profile.dart';
 import 'package:driver_apps/components_screen/route_screens/route.dart';
@@ -28,20 +27,12 @@ class _HomeScreenState extends State<HomeScreen> {
     },
    
     {
-      'title': "Task Completed",
+      'title': "Task",
       'page': const TaskCompleteSCreen(
         id: '2',
         name: "taskComplete",
       )
       
-    },
-    {
-      'title': "Task Incompleted",
-      'page': const TaskIncomplete(
-        id: '3',
-        name: "taskIncomplete",
-      )
-     
     },
   ];
   final List<Map<String, dynamic>> _userdata = [
@@ -56,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {
       'title': "Attendance",
       'icon': Icons.mark_chat_read,
-      'page': const Attendance(
+      'page':  Attendance(
         id: '2',
         name: "Attendance",
       )

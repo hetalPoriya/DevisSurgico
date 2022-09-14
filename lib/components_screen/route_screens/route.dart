@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:driver_apps/components_screen/route_screens/route_detail.dart';
 import 'package:flutter/material.dart';
-
 import '../../api/LoginApi.dart';
 import '../../model/Route_by_hospital_model.dart';
 
