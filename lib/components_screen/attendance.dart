@@ -2,9 +2,14 @@
 
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:driver_apps/home_screen/home.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../api/LoginApi.dart';
 
 class Attendance extends StatefulWidget {
   final String? id;
@@ -18,6 +23,13 @@ class Attendance extends StatefulWidget {
 class _AttendanceState extends State<Attendance> {
   DateTime todayDate = DateTime.now();
   File? image;
+  Position? position;
+  @override
+  void initState() {
+    // TODO: implement initState
+    getCurrentLocation();
+    super.initState();
+  }
 
   Future pickImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -26,7 +38,6 @@ class _AttendanceState extends State<Attendance> {
     final imageTemporary = File(image.path);
     setState(() => this.image = imageTemporary);
 
-    // Navigator.of(context).pop();
   }
 
   getImageData(image) {
@@ -121,11 +132,11 @@ class _AttendanceState extends State<Attendance> {
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children:  [
                   Icon(Icons.location_on),
                   SizedBox(width: 10,),
                   Text(
-                    "location",
+                    position.toString(),
                     style: TextStyle(
                       fontSize: 19,
                       color: Colors.black,
@@ -190,7 +201,9 @@ class _AttendanceState extends State<Attendance> {
               ),
               const SizedBox(height: 50),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  addAttendance();
+                },
                 style: ElevatedButton.styleFrom(
                   primary: const Color(0XFFB71C1C),
                   shape: RoundedRectangleBorder(
@@ -212,6 +225,43 @@ class _AttendanceState extends State<Attendance> {
 
       ),
     );
+  }
+
+  void getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    setState(() {
+      print(position);
+      this.position = position;
+    });
+  }
+
+
+  void addAttendance() async {
+    MultipartFile images=await MultipartFile.fromFile(image!.path.toString(),filename: image.toString() + ".png");
+
+    LoginApi.attandencesIn(
+      FormData.fromMap(
+        {
+          "driver_id": "1",
+          "in_time": "2022-08-09 10:00:24",
+          "in_latitude": position?.latitude.toString(),
+          "in_longitude": position?.longitude.toString(),
+          "in_photo": images
+        },
+      ),
+    ).then((value) {
+      // setState(() {
+      //   isLoading = false;
+      // });
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    });
   }
 
 }

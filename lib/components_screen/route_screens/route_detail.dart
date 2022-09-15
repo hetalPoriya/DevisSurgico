@@ -38,6 +38,7 @@ class _RouteDetailsScreenState extends State<RouteDetailsScreen> {
   }
 
   void getCurrentLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     setState(() {
