@@ -7,5 +7,5 @@ class ServerConstants {
   static String attendanceIn = BASE_URL + "attendance-in";
   static String attendanceOut = BASE_URL + "attendance-out";
   static String hospitalAttend = BASE_URL + "hospital-attend";
-  static String hospitalAttendData = BASE_URL + "hospital-attend/1";
+  static String hospitalAttendData = BASE_URL + "hospital-attend/1?status=Done";
 }

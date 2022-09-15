@@ -14,39 +14,45 @@ class TaskCompleteSCreen extends StatefulWidget {
 }
 
 class _TaskCompleteSCreenState extends State<TaskCompleteSCreen> {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: DefaultTabController(
+        length: 3,
+        child:Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Task Complete"),
-        backgroundColor: const Color(0XFFB71C1C),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              //bottomRight: Radius.circular(20),
-              bottomLeft: Radius.circular(20)),
+        elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: const Text("Task Complete",style: TextStyle(color: Colors.black),),
+        backgroundColor:  Colors.white,
+        bottom: const TabBar(
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.black,
+         // isScrollable: true,
+          indicator: BoxDecoration(
+            // borderRadius: BorderRadius.circular(8), // Creates border
+              color: Color(0XFFB71C1C)),
+          tabs: [
+            Tab(
+              text: ("Done"),
+            ),
+            Tab(text: ("Partially")),
+            Tab(text: ("Denied")),
+          ],
         ),
       ),
-      body: SafeArea(
-        child: FutureBuilder(
-            future: hospitalData(),
-            builder: (context, AsyncSnapshot<Hospital> snapshot) {
-              if (snapshot.hasData) {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ...snapshot.data!.data!.map((e) => addWidget(e)).toList(),
-                    ],
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
-      ),
-    );
+          body: TabBarView(
+            children: [
+             done(),
+              partially(),
+              denied(),
+            ],
+          ),
+
+    )));
   }
 
   Future<Hospital> hospitalData() {
@@ -86,5 +92,32 @@ class _TaskCompleteSCreenState extends State<TaskCompleteSCreen> {
         ),
       ),
     );
+  }
+ Widget done(){
+    return SafeArea(
+          child: FutureBuilder(
+              future: hospitalData(),
+              builder: (context, AsyncSnapshot<Hospital> snapshot) {
+                if (snapshot.hasData) {
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        ...snapshot.data!.data!.map((e) => addWidget(e)).toList(),
+                      ],
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
+        );
+ }
+  Widget partially(){
+    return Container();
+  }
+  Widget denied(){
+    return Container();
   }
 }
