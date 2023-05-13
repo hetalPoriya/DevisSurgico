@@ -1,6 +1,7 @@
 // ignore_for_file: unused_import, prefer_final_fields, prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'dart:developer';
+import 'package:driver_apps/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -50,7 +51,7 @@ class _ProfileState extends State<Profile> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          backgroundColor: const Color(0XFFB71C1C),
+          backgroundColor:  AppColors.appBarColor,
           centerTitle: true,
           title: const Text(
             "Profile",
@@ -119,7 +120,7 @@ class _ProfileState extends State<Profile> {
                             width: 4,
                             color: Theme.of(context).scaffoldBackgroundColor,
                           ),
-                          color: const Color(0XFFB71C1C),
+                          color: AppColors.appBarColor,
                         ),
                         child: InkWell(
                           onTap: () {
@@ -152,9 +153,9 @@ class _ProfileState extends State<Profile> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.person,
-                              color: Color(0XFFB71C1C),
+                              color: AppColors.appBarColor,
                               size: 28,
                             ),
                             //prefixIconColor: const Color(0XFFaeca53),
@@ -176,9 +177,9 @@ class _ProfileState extends State<Profile> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.calendar_month,
-                              color: Color(0XFFB71C1C),
+                              color: AppColors.appBarColor,
                               size: 28,
                             ),
                             // prefixIconColor: const Color(0XFFaeca53),
@@ -200,9 +201,9 @@ class _ProfileState extends State<Profile> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.phone_android_outlined,
-                              color: Color(0XFFB71C1C),
+                              color: AppColors.appBarColor,
                               size: 28,
                             ),
                             //prefixIconColor: const Color(0XFFaeca53),
@@ -224,9 +225,9 @@ class _ProfileState extends State<Profile> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.email_outlined,
-                              color: Color(0XFFB71C1C),
+                              color: AppColors.appBarColor,
                               size: 28,
                             ),
                             // prefixIconColor: const Color(0XFFaeca53),
@@ -248,9 +249,9 @@ class _ProfileState extends State<Profile> {
                             focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.grey),
                             ),
-                            prefixIcon: const Icon(
+                            prefixIcon:  Icon(
                               Icons.car_repair,
-                              color: Color(0XFFB71C1C),
+                              color: AppColors.appBarColor,
                               size: 28,
                             ),
                             // prefixIconColor: const Color(0XFFaeca53),
@@ -311,7 +312,7 @@ class _ProfileState extends State<Profile> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  primary: const Color(0XFFB71C1C),
+                                  primary: AppColors.appBarColor,
                                 ),
                               ),
                             ),
@@ -334,7 +335,7 @@ class _ProfileState extends State<Profile> {
 class HeaderCurvedContainer extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()..color = const Color(0XFFB71C1C);
+    Paint paint = Paint()..color =  AppColors.appBarColor;
     Path path = Path()
       ..relativeLineTo(0, 80)
       ..quadraticBezierTo(size.width / 2, 150, size.width, 80)

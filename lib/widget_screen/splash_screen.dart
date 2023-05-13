@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:driver_apps/logIn_screen/login.dart';
+import 'package:driver_apps/utils/sharedPref_.dart';
 import 'package:flutter/material.dart';
 
 import '../home_screen/home.dart';
@@ -18,11 +19,11 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      if (prefs?.getBool("islogin") == true) {
+      if (PreferencesManager.getBool("islogin") == true) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>const HomeScreen(),
+            builder: (context) => const HomeScreen(),
           ),
         );
       } else {
@@ -38,13 +39,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-     
-     body: Center(
-        child: Image.asset(
-         'assets/logo.png',
-         fit: BoxFit.contain,
-          //width: MediaQuery.of(context).size.width / 1.2,
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Image.asset(
+            'assets/logo.png',
+            fit: BoxFit.contain,
+            //width: MediaQuery.of(context).size.width / 1.2,
+          ),
         ),
       ),
     );

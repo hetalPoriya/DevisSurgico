@@ -1,8 +1,12 @@
+import 'package:driver_apps/utils/app_colors.dart';
+import 'package:driver_apps/utils/app_widget.dart';
 import 'package:flutter/material.dart';
+
 class NotificationScreen extends StatefulWidget {
   final String? id;
   final String? name;
-  const NotificationScreen({Key? key,this.id,this.name}) : super(key: key);
+
+  const NotificationScreen({Key? key, this.id, this.name}) : super(key: key);
 
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
@@ -12,25 +16,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Notification"),
-          backgroundColor:const Color(0XFFB71C1C),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              //bottomRight: Radius.circular(20),
-                bottomLeft: Radius.circular(20)),
-          ),
-        ),
+        appBar: AppWidget.appBarWidget(text: 'Notification'),
         body: ListView.builder(
           itemBuilder: (context, position) {
             return Card(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
-                    leading: const Icon(
+                    leading:  Icon(
                       Icons.notifications,
-                      color: Color(0XFFB71C1C),
+                      color: AppColors.appBarColor,
                     ),
                     title: Align(
                       alignment: Alignment.topLeft,
@@ -47,8 +42,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                           Align(
                             alignment: Alignment.topLeft,
-                            child: Text(
-                                "You can complete the task......"),
+                            child: Text("You can complete the task......"),
                           ),
                         ],
                       ),

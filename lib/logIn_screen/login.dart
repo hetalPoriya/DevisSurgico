@@ -1,235 +1,229 @@
 import 'dart:developer';
 
 import 'package:driver_apps/home_screen/home.dart';
+import 'package:driver_apps/utils/app_colors.dart';
+import 'package:driver_apps/utils/app_strings.dart';
+import 'package:driver_apps/utils/app_widget.dart';
+import 'package:driver_apps/utils/sharedPref_.dart';
+import 'package:driver_apps/utils/validation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sizer/sizer.dart';
 
 import '../api/LoginApi.dart';
 import '../main.dart';
 
 class LoginScreen extends StatefulWidget {
- const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-   bool _isPasswordVisible = false;
-   bool isLoading = false;
+  bool _isPasswordVisible = false;
+  bool isLoading = false;
   final TextEditingController _numberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-   final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: true,
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-          child: Column(children: [
-             const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "Login",
-              style: TextStyle(
-                color: Color(0XFFB71C1C),
-                fontWeight: FontWeight.bold,
-                fontSize: 45,
-              ),
-            ),
-            const SizedBox(
-              height:50,
-            ),
-            SizedBox(
-              height: 200,
-              child: Image.asset("assets/splash.jpg",
-
-              ),
-            ),
-            const SizedBox(
-              height:40,
-            ),
-            Form(
-              key: _form,
-              child: Column(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      //color:  const Color(0XFFC5E1A5),
-                      color:  const Color(0XFFFFCDD2),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
-                          return 'Please enter your email address';
-                        }
-                        if (value.trim().length < 16) {
-                          return 'Please enter your valid number';
-                        }
-                        return null;
-                      },
-                      cursorColor: Colors.grey,
-                      controller: _numberController,
-                      decoration: const InputDecoration(
-                        hintText: "Your number",
-                        prefixIcon: Icon(
-                          Icons.call,
-                          color: Colors.black,
-                        ),
-                        border: InputBorder.none,
-                        // contentPadding: EdgeInsets.all(6.0),
-                      ),
+        body: Stack(
+          children: [
+            Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: SingleChildScrollView(
+                child: Column(children: [
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Text(
+                    "Login",
+                    style: TextStyle(
+                      color: AppColors.appBarColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30.sp,
                     ),
                   ),
-                  const SizedBox(
-                    height: 25,
+                  SizedBox(
+                    height: 8.h,
                   ),
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                       color: const Color(0XFFFFCDD2),
-                     // color: const Color(0XFFC5E1A5),
-                      borderRadius: BorderRadius.circular(30),
+                  SizedBox(
+                    height: 20.h,
+                    child: Image.asset(
+                      "assets/splash.jpg",
                     ),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value == null ||
-                            value.trim().isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        if (value.trim().length < 6) {
-                          return 'Please enter your valid password';
-                        }
-                        return null;
-                      },
-                      cursorColor: Colors.grey,
-                      controller: _passwordController,
-                      obscureText: !_isPasswordVisible,
-                      decoration: InputDecoration(
-                          hintText: "Your Password",
-                          prefixIcon: const Icon(
-                            Icons.lock,
-                            color: Colors.black,
+                  ),
+                  SizedBox(
+                    height: 4.h,
+                  ),
+                  Form(
+                    key: _form,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: Column(
+                        children: [
+                          AppWidget.textFormField(
+                            text: 'Your number',
+                            textEditingController: _numberController,
+                            validator: FormValidation.mobileNumberValidation(
+                                value: _numberController.text),
+                            iconData: Icons.call,
                           ),
-                          suffixIcon: InkWell(
-                            onTap: () => setState(() {
-                              _isPasswordVisible = !_isPasswordVisible;
-                            }),
-                            child: Icon(
-                              _isPasswordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Colors.black,
+                          SizedBox(
+                            height: 2.h,
+                          ),
+                          AppWidget.textFormField(
+                            text: 'Your Password',
+                            textEditingController: _passwordController,
+                            validator: FormValidation.passwordValidation(
+                                value: _passwordController.text),
+                            widget: InkWell(
+                              onTap: () => setState(() {
+                                _isPasswordVisible = !_isPasswordVisible;
+                              }),
+                              child: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black,
+                              ),
+                            ),
+                            obscureText: !_isPasswordVisible,
+                            iconData: Icons.lock,
+                            textInputAction: TextInputAction.done,
+                            textInputType: TextInputType.text,
+                          ),
+                          SizedBox(
+                            height: 3.h,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 80),
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (_form.currentState!.validate()) {
+                                  signIn();
+                                } else {
+                                  Fluttertoast.showToast(
+                                      msg: 'Invalid credential');
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: AppColors.appBarColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                "LOGIN",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ),
                           ),
-                          border: InputBorder.none),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 80),
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        signIn();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary:const Color(0XFFB71C1C),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: const Text(
-                        "LOGIN",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        ],
                       ),
                     ),
                   ),
-                ],
+                ]),
               ),
             ),
-
-          ]),
+            if (isLoading == true)
+              Center(
+                  child: CircularProgressIndicator(
+                color: Colors.black,
+              ))
+          ],
         ),
       ),
     );
   }
-   void signIn() {
-     if (_numberController.text == "") {
-       _showMyDialog();
-     } else if (_passwordController.text == "") {
-       _showMyDialog();
-     } else {
-       var loginResponse = LoginApi.logIn({
-         "mobile": _numberController.text,
-         "password": _passwordController.text
-       });
-       loginResponse.then((value) async {
-         log("helllllllo");
-         log(value.mobile.toString());
-         if (value.mobile != null) {
-           prefs!.setBool("islogin", true);
-           prefs!.setString("id", value.id.toString());
-           prefs!.setString("name", value.name.toString());
-           prefs!.setString("mobile", value.mobile.toString());
-           prefs!.setString("password", value.password.toString());
-           prefs!.setString("device_id", value.deviceId.toString());
-           log(value.toString());
-           setState(
-                 () => {isLoading = false},
-           );
-           Navigator.push(
-             context,
-             MaterialPageRoute(
-               builder: (BuildContext context) => const HomeScreen(),
-             ),
-           );
-         } else {
-           _showMyDialog();
-         }
-       });
-     }
-   }
-   Future<void> _showMyDialog() async {
-     return showDialog<void>(
-       context: context,
-       barrierDismissible: false, // user must tap button!
-       builder: (BuildContext context) {
-         return AlertDialog(
-           title: const Text('Login Failed'),
-           content: SingleChildScrollView(
-             child: ListBody(
-               children: const <Widget>[
-                 Text('Invalid credentials. Please try again.'),
-               ],
-             ),
-           ),
-           actions: <Widget>[
-             TextButton(
-               child: const Text(
-                 'OK',
-                 style: TextStyle(color: Colors.black),
-               ),
-               onPressed: () {
-                 Navigator.of(context).pop();
-               },
-             ),
-           ],
-         );
-       },
-     );
-   }
+
+  signIn() {
+    // if (_numberController.text == "") {
+    //   _showMyDialog();
+    // } else if (_passwordController.text == "") {
+    //   _showMyDialog();
+    // } else {
+    setState(
+      () => {isLoading = true},
+    );
+    var loginResponse = LoginApi.logIn({
+      "mobile": _numberController.text,
+      "password": _passwordController.text
+    });
+    loginResponse.then((value) async {
+      log("helllllllo");
+      log(value.mobile.toString());
+      if (value.mobile != null) {
+        print('value ${value.id}');
+        PreferencesManager.setBool(AppStrings.islogin, true);
+        PreferencesManager.setString(AppStrings.userId, value.id.toString());
+        PreferencesManager.setString(AppStrings.name, value.name.toString());
+        PreferencesManager.setString(
+            AppStrings.mobile, value.mobile.toString());
+        PreferencesManager.setString(
+            AppStrings.password, value.password.toString());
+        PreferencesManager.setString(
+            AppStrings.device_id, value.deviceId.toString());
+        PreferencesManager.setInt(AppStrings.onlyCurrentDate, 0);
+        PreferencesManager.setBool(AppStrings.isAttendanceIn, false);
+        log(value.toString());
+        setState(
+          () => {isLoading = false},
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => const HomeScreen(),
+          ),
+        );
+      } else {
+        _showMyDialog();
+      }
+    });
+    // }
+  }
+
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Login Failed'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('Invalid credentials. Please try again.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text(
+                'OK',
+                style: TextStyle(color: Colors.black),
+              ),
+              onPressed: () {
+                setState(() {
+                  isLoading = false;
+                  Navigator.of(context).pop();
+                });
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

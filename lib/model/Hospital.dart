@@ -3,11 +3,12 @@
 
 class Hospital {
   Hospital({
-      bool? status, 
-      List<HospitalData>? data,}){
+    bool? status,
+    List<HospitalData>? data,
+  }) {
     _status = status;
     _data = data;
-}
+  }
 
   Hospital.fromJson(dynamic json) {
     _status = json['Status'];
@@ -20,11 +21,14 @@ class Hospital {
   }
   bool? _status;
   List<HospitalData>? _data;
-Hospital copyWith({  bool? status,
-  List<HospitalData>? data,
-}) => Hospital(  status: status ?? _status,
-  data: data ?? _data,
-);
+  Hospital copyWith({
+    bool? status,
+    List<HospitalData>? data,
+  }) =>
+      Hospital(
+        status: status ?? _status,
+        data: data ?? _data,
+      );
   bool? get status => _status;
   List<HospitalData>? get data => _data;
 
@@ -36,7 +40,6 @@ Hospital copyWith({  bool? status,
     }
     return map;
   }
-
 }
 
 /// id : 1
@@ -53,17 +56,18 @@ Hospital copyWith({  bool? status,
 
 class HospitalData {
   HospitalData({
-      num? id, 
-      num? driverId, 
-      String? hospitalId, 
-      String? latitude, 
-      String? longitude, 
-      String? time, 
-      String? photo, 
-      String? status, 
-      String? createdAt, 
-      String? updatedAt, 
-      String? name,}){
+    num? id,
+    num? driverId,
+    String? hospitalId,
+    String? latitude,
+    String? longitude,
+    String? time,
+    String? photo,
+    String? status,
+    String? createdAt,
+    String? updatedAt,
+    String? name,
+  }) {
     _id = id;
     _driverId = driverId;
     _hospitalId = hospitalId;
@@ -75,7 +79,7 @@ class HospitalData {
     _createdAt = createdAt;
     _updatedAt = updatedAt;
     _name = name;
-}
+  }
 
   HospitalData.fromJson(dynamic json) {
     _id = json['id'];
@@ -101,29 +105,32 @@ class HospitalData {
   String? _createdAt;
   String? _updatedAt;
   String? _name;
-HospitalData copyWith({  num? id,
-  num? driverId,
-  String? hospitalId,
-  String? latitude,
-  String? longitude,
-  String? time,
-  String? photo,
-  String? status,
-  String? createdAt,
-  String? updatedAt,
-  String? name,
-}) => HospitalData(  id: id ?? _id,
-  driverId: driverId ?? _driverId,
-  hospitalId: hospitalId ?? _hospitalId,
-  latitude: latitude ?? _latitude,
-  longitude: longitude ?? _longitude,
-  time: time ?? _time,
-  photo: photo ?? _photo,
-  status: status ?? _status,
-  createdAt: createdAt ?? _createdAt,
-  updatedAt: updatedAt ?? _updatedAt,
-  name: name ?? _name,
-);
+  HospitalData copyWith({
+    num? id,
+    num? driverId,
+    String? hospitalId,
+    String? latitude,
+    String? longitude,
+    String? time,
+    String? photo,
+    String? status,
+    String? createdAt,
+    String? updatedAt,
+    String? name,
+  }) =>
+      HospitalData(
+        id: id ?? _id,
+        driverId: driverId ?? _driverId,
+        hospitalId: hospitalId ?? _hospitalId,
+        latitude: latitude ?? _latitude,
+        longitude: longitude ?? _longitude,
+        time: time ?? _time,
+        photo: photo ?? _photo,
+        status: status ?? _status,
+        createdAt: createdAt ?? _createdAt,
+        updatedAt: updatedAt ?? _updatedAt,
+        name: name ?? _name,
+      );
   num? get id => _id;
   num? get driverId => _driverId;
   String? get hospitalId => _hospitalId;
@@ -151,5 +158,4 @@ HospitalData copyWith({  num? id,
     map['name'] = _name;
     return map;
   }
-
 }

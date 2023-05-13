@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:driver_apps/home_screen/home.dart';
+import 'package:driver_apps/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
@@ -54,8 +55,8 @@ class _AttendanceState extends State<Attendance> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: const Text("Attendance"),
-          backgroundColor: const Color(0XFFB71C1C),
+          title: const Text("Attendance In"),
+          backgroundColor: AppColors.appBarColor,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
               //bottomRight: Radius.circular(20),
@@ -105,7 +106,7 @@ class _AttendanceState extends State<Attendance> {
                               width: 4,
                               color: Theme.of(context).scaffoldBackgroundColor,
                             ),
-                            color: const Color(0XFFB71C1C),
+                            color: AppColors.appBarColor,
                           ),
                           child: InkWell(
                             onTap: () => pickImage(),
@@ -121,25 +122,26 @@ class _AttendanceState extends State<Attendance> {
               // const SizedBox(height: 40),
 
               const SizedBox(height: 30),
-              const Text(
-                "Username",
-                style: TextStyle(
-                    fontSize: 19,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              const SizedBox(height: 15),
+              // const Text(
+              //   "Username",
+              //   style: TextStyle(
+              //       fontSize: 19,
+              //       color: Colors.black,
+              //       fontWeight: FontWeight.bold
+              //   ),
+              // ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:  [
                   Icon(Icons.location_on),
                   SizedBox(width: 10,),
-                  Text(
-                    position.toString(),
-                    style: TextStyle(
-                      fontSize: 19,
-                      color: Colors.black,
+                  Expanded(
+                    child: Text(
+                      position.toString(),
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ],
@@ -205,13 +207,13 @@ class _AttendanceState extends State<Attendance> {
                   addAttendance();
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: const Color(0XFFB71C1C),
+                  primary: AppColors.appBarColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
                 child: const Text(
-                  "Mark Attendance",
+                  "Attendance In",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -263,5 +265,4 @@ class _AttendanceState extends State<Attendance> {
       );
     });
   }
-
 }

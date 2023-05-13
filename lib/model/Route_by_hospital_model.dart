@@ -3,11 +3,12 @@
 
 class RouteByHospitalModel {
   RouteByHospitalModel({
-      bool? status, 
-      List<RouteByHospitalData>? data,}){
+    bool? status,
+    List<RouteByHospitalData>? data,
+  }) {
     _status = status;
     _data = data;
-}
+  }
 
   RouteByHospitalModel.fromJson(dynamic json) {
     _status = json['Status'];
@@ -20,11 +21,14 @@ class RouteByHospitalModel {
   }
   bool? _status;
   List<RouteByHospitalData>? _data;
-RouteByHospitalModel copyWith({  bool? status,
-  List<RouteByHospitalData>? data,
-}) => RouteByHospitalModel(  status: status ?? _status,
-  data: data ?? _data,
-);
+  RouteByHospitalModel copyWith({
+    bool? status,
+    List<RouteByHospitalData>? data,
+  }) =>
+      RouteByHospitalModel(
+        status: status ?? _status,
+        data: data ?? _data,
+      );
   bool? get status => _status;
   List<RouteByHospitalData>? get data => _data;
 
@@ -36,7 +40,6 @@ RouteByHospitalModel copyWith({  bool? status,
     }
     return map;
   }
-
 }
 
 /// hospital_id : "G794"
@@ -48,14 +51,16 @@ RouteByHospitalModel copyWith({  bool? status,
 /// phone : ""
 
 class RouteByHospitalData {
-  RouteByHospitalData({
-      String? hospitalId, 
-      String? hospitalType, 
-      String? name, 
-      String? address, 
-      String? contact, 
-      String? mobile, 
-      String? phone,}){
+  RouteByHospitalData(
+      {String? hospitalId,
+      String? hospitalType,
+      String? name,
+      String? address,
+      String? contact,
+      String? mobile,
+      String? date,
+      String? phone,
+      String? status}) {
     _hospitalId = hospitalId;
     _hospitalType = hospitalType;
     _name = name;
@@ -63,7 +68,9 @@ class RouteByHospitalData {
     _contact = contact;
     _mobile = mobile;
     _phone = phone;
-}
+    _status = status;
+    _date = date;
+  }
 
   RouteByHospitalData.fromJson(dynamic json) {
     _hospitalId = json['hospital_id'];
@@ -73,6 +80,8 @@ class RouteByHospitalData {
     _contact = json['contact'];
     _mobile = json['mobile'];
     _phone = json['phone'];
+    _status = json['status'];
+    _date = json['date'];
   }
   String? _hospitalId;
   String? _hospitalType;
@@ -81,21 +90,30 @@ class RouteByHospitalData {
   String? _contact;
   String? _mobile;
   String? _phone;
-RouteByHospitalData copyWith({  String? hospitalId,
-  String? hospitalType,
-  String? name,
-  String? address,
-  String? contact,
-  String? mobile,
-  String? phone,
-}) => RouteByHospitalData(  hospitalId: hospitalId ?? _hospitalId,
-  hospitalType: hospitalType ?? _hospitalType,
-  name: name ?? _name,
-  address: address ?? _address,
-  contact: contact ?? _contact,
-  mobile: mobile ?? _mobile,
-  phone: phone ?? _phone,
-);
+  String? _status;
+  String? _date;
+  RouteByHospitalData copyWith({
+    String? hospitalId,
+    String? hospitalType,
+    String? name,
+    String? address,
+    String? contact,
+    String? mobile,
+    String? phone,
+    String? status,
+    String? date,
+  }) =>
+      RouteByHospitalData(
+        hospitalId: hospitalId ?? _hospitalId,
+        hospitalType: hospitalType ?? _hospitalType,
+        name: name ?? _name,
+        address: address ?? _address,
+        contact: contact ?? _contact,
+        mobile: mobile ?? _mobile,
+        phone: phone ?? _phone,
+        status: status ?? _status,
+        date: status ?? _date,
+      );
   String? get hospitalId => _hospitalId;
   String? get hospitalType => _hospitalType;
   String? get name => _name;
@@ -103,6 +121,8 @@ RouteByHospitalData copyWith({  String? hospitalId,
   String? get contact => _contact;
   String? get mobile => _mobile;
   String? get phone => _phone;
+  String? get status => _status;
+  String? get date => _date;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -113,7 +133,8 @@ RouteByHospitalData copyWith({  String? hospitalId,
     map['contact'] = _contact;
     map['mobile'] = _mobile;
     map['phone'] = _phone;
+    map['status'] = _status;
+    map['date'] = _date;
     return map;
   }
-
 }
